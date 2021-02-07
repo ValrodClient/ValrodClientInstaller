@@ -12,6 +12,9 @@ import java.nio.channels.ReadableByteChannel;
 
 public class utils {
 
+	final static String launcherDir = System.getenv("ProgramFiles(X86)") +"\\Minecraft Launcher\\MinecraftLauncher.exe";
+	
+	final static String profilesDir = System.getProperty("user.home")+"\\AppData\\Roaming\\.minecraft\\launcher_profiles.json";
 	final static String clientFolder = System.getProperty("user.home")+"\\AppData\\Roaming\\.minecraft\\versions\\ValrodClient";
 	
 	final static String serverJarPath = "https://valrodclient.github.io/client/ValrodClient.jar";
@@ -85,13 +88,24 @@ public class utils {
 		}
 	}
 	
+	public static void startMinecraftLauncher() {
+		Desktop desktop = Desktop.getDesktop();
+	    try {
+			desktop.open(new File(launcherDir));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	static void update() {
 		createDir();
 		downloadJar();
 		if(!error){
 		downloadJson();
+		startMinecraftLauncher();
 		openDiscord();
 		openChannel();
+		System.exit(0);
 		}
 	}
 }
